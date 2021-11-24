@@ -19,10 +19,6 @@ const init = (() => {
   load();
 })();
 
-function createNewProject(projectName) {
-  newProject(projectName);
-  saveProjects();
-}
 function newTask(title, description, dueDate, project) {
   let task = TaskFactory(title, description, dueDate, project);
   taskList.push(task);
@@ -31,21 +27,61 @@ function newTask(title, description, dueDate, project) {
 
 function newProject(project) {
   projectList.push(project);
+  StorageController.saveProjects(projectList);
+  let projectButtons = DOMController.setProjectMenuDiv(projectList);
+  addProjectClickHandlers(projectButtons);
 }
 
 function addProjectToggleButton() {
   DOMController.toggleAddProject();
+  DOMController.clearNewProjectInput();
 }
 
 // Put functions in global scope for button onclick
 window.addProjectToggleButton = addProjectToggleButton;
+window.addNewProjectButton = addNewProjectButton;
+window.cancelNewProjectButton = cancelNewProjectButton;
 window.taskList = taskList;
 window.projectList = projectList;
 
 function load() {
   projectList = StorageController.loadProjects();
   taskList = StorageController.loadTasks();
-  DOMController.setProjectMenuDiv(projectList);
+  let projectButtonDivs = DOMController.setProjectMenuDiv(projectList);
+  addProjectClickHandlers(projectButtonDivs);
 }
 
+function addProjectClickHandlers(projectButtonDivs) {
+  projectButtonDivs.forEach((buttonDiv) => {
+    buttonDiv.removeEventListener("click", projectClickHandler);
+    buttonDiv.addEventListener("click", projectClickHandler);
+  });
+}
 // Click Handlers
+
+function addNewProjectButton() {
+  const input = DOMController.getNewProjectName();
+  if (isEmpty(input)) {
+    alert("Project must have a name");
+    return;
+  } else if (projectList.includes(input)) {
+    alert("Project already exists");
+    return;
+  } else {
+    newProject(input);
+  }
+  addProjectToggleButton();
+}
+
+function cancelNewProjectButton() {
+  addProjectToggleButton();
+}
+
+function projectClickHandler() {
+  DOMController.setContentDiv(this.dataset.projectName);
+}
+
+// Validator Utilities
+function isEmpty(str) {
+  return !str.trim().length;
+}

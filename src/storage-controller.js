@@ -5,7 +5,7 @@ const StorageController = (() => {
     _storage.setItem("TASK" + task.title, JSON.stringify(task));
   }
 
-  function saveProjects() {
+  function saveProjects(projectList) {
     _storage.setItem("PROJECTS", JSON.stringify(projectList));
   }
 

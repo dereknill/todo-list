@@ -24,17 +24,22 @@
                     <div class="project-menu-container">
 
                     </div>
-                    <button onclick="addProjectToggleButton()" class="hide menu-section-button" id="add-project-button"><i class="fas fa-plus menu-icon"></i>Add Project</button>
-                    <div class="add-project-container">
-                        <input type="text" class="add-project-input"></input>
-                        <button onclick="addProjectToggleButton()" class="button-main button-add">Add</button>
+                    <button onclick="addProjectToggleButton()" class="menu-section-button" id="add-project-button"><i class="fas fa-plus menu-icon"></i>Add Project</button>
+                    <div class="add-project-container hide">
+                        <input type="text" class="add-project-input" placeholder="Project Name"></input>
+                        <div class="add-project-buttons-container">
+                            <button onclick="addNewProjectButton()" class="button-main button-add">Add</button>
+                            <button onclick="cancelNewProjectButton()" class="button-main button-cancel">Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="content-section">
                 <div class="content-inner-container">
-                    <div class="heading">Today</div>
-                    <div class="task-container"></div>
+                    <div class="content-heading">
+                        <div class="content-title"></div>
+                        <button class="button-main button-delete-project">Delete Project</button>
+                    </div>
                 </div>
             </div>
         </div>

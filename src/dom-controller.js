@@ -3,6 +3,7 @@ const DOMController = (() => {
   const projectMenuDiv = document.querySelector(".project-menu-container");
   const addProjectButton = document.querySelector("#add-project-button");
   const addProjectFormDiv = document.querySelector(".add-project-container");
+  const projectInputDiv = document.querySelector(".add-project-input");
 
   function setProjectMenuDiv(projects) {
     _removeAllChildren(projectMenuDiv);
@@ -10,6 +11,7 @@ const DOMController = (() => {
     if (projects === null) {
       return;
     }
+    let projectButtonDivs = [];
     projects.forEach((project) => {
       let button = document.createElement("button");
       let icon = document.createElement("i");
@@ -19,8 +21,12 @@ const DOMController = (() => {
       text.innerHTML = project;
       button.appendChild(icon);
       button.appendChild(text);
+      button.setAttribute("data-project-name", project);
       projectMenuDiv.appendChild(button);
+      projectButtonDivs.push(button);
     });
+
+    return projectButtonDivs;
   }
 
   function _removeAllChildren(element) {
@@ -42,9 +48,29 @@ const DOMController = (() => {
       addProjectFormDiv.classList.add("hide");
     }
   }
+
+  function getNewProjectName() {
+    return projectInputDiv.value;
+  }
+
+  function clearNewProjectInput() {
+    projectInputDiv.value = "";
+  }
+
+  function setContentDiv(title, tasks) {
+    _setContentTitle(title);
+  }
+
+  function _setContentTitle(title) {
+    let titleDiv = document.querySelector(".content-title");
+    titleDiv.innerHTML = title;
+  }
   return {
     setProjectMenuDiv,
     toggleAddProject,
+    getNewProjectName,
+    clearNewProjectInput,
+    setContentDiv,
   };
 })();
 

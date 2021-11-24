@@ -118,13 +118,48 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
 .button-add {
   background-color: rgb(170, 255, 170);
   border: 1px solid rgb(153, 221, 153);
+  width: 45%;
+}
+
+.button-cancel {
+  background-color: rgb(255, 190, 190);
+  border: 1px solid rgb(238, 173, 173);
+  width: 45%;
+}
+
+.button-main:hover {
+  filter: brightness(90%);
 }
 
 .task-container {
   display: grid;
+}
+
+.add-project-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.content-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-title {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.button-delete-project {
+  background-color: rgb(255, 190, 190);
+  border: 1px solid rgb(238, 173, 173);
 }
