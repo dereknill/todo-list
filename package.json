@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "date-fns": "^2.26.0",
     "html-loader": "^3.0.1",
     "normalize.css": "^8.0.1"
   }
