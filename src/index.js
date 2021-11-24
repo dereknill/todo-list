@@ -52,10 +52,12 @@ function load() {
 }
 
 function addProjectClickHandlers(projectButtonDivs) {
-  projectButtonDivs.forEach((buttonDiv) => {
-    buttonDiv.removeEventListener("click", projectClickHandler);
-    buttonDiv.addEventListener("click", projectClickHandler);
-  });
+  if (projectButtonDivs.length > 0) {
+    projectButtonDivs.forEach((buttonDiv) => {
+      buttonDiv.removeEventListener("click", projectClickHandler);
+      buttonDiv.addEventListener("click", projectClickHandler);
+    });
+  }
 }
 // Click Handlers
 
