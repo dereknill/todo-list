@@ -10,7 +10,12 @@ const StorageController = (() => {
   }
 
   function loadProjects() {
-    return JSON.parse(_storage.getItem("PROJECTS"));
+    const projects = JSON.parse(_storage.getItem("PROJECTS"));
+    if (projects) {
+      return projects;
+    } else {
+      return [];
+    }
   }
 
   function loadTasks() {
