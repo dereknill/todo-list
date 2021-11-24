@@ -52,7 +52,7 @@ function load() {
 }
 
 function addProjectClickHandlers(projectButtonDivs) {
-  if (projectButtonDivs.length > 0) {
+  if (projectButtonDivs) {
     projectButtonDivs.forEach((buttonDiv) => {
       buttonDiv.removeEventListener("click", projectClickHandler);
       buttonDiv.addEventListener("click", projectClickHandler);
