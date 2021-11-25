@@ -13,7 +13,7 @@ const DOMController = (() => {
     }
     let projectButtonDivs = [];
     projects.forEach((project) => {
-      let button = document.createElement("button");
+      let button = document.createElement("div");
       let icon = document.createElement("i");
       let text = document.createElement("span");
       button.classList.add("menu-section-button");
