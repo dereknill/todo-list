@@ -65,7 +65,8 @@ function load() {
 function addProjectClickHandlers(projectButtonDivs) {
   if (projectButtonDivs) {
     projectButtonDivs.forEach((buttonDiv) => {
-      buttonDiv.removeEventListener(clickOrTouch, projectClickHandler);
+      buttonDiv.removeEventListener("click", projectClickHandler);
+      buttonDiv.removeEventListener("touchstart", projectClickHandler);
       buttonDiv.addEventListener(clickOrTouch, projectClickHandler);
     });
   }
