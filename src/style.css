@@ -63,6 +63,7 @@ body {
   border-radius: 10px;
   text-align: left;
   color: var(--primary-color);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .menu-section-button:hover {
