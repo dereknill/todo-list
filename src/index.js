@@ -13,9 +13,19 @@ import StorageController from "./storage-controller.js";
 
 let taskList = [];
 let projectList = [];
+let clickOrTouch = "";
 
 // Initialize Application On Load
 const init = (() => {
+  if (
+    "ontouchstart" in window ||
+    navigator.MaxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
+  ) {
+    clickOrTouch = "ontouchstart";
+  } else {
+    clickOrTouch = "click";
+  }
   load();
 })();
 
@@ -54,8 +64,8 @@ function load() {
 function addProjectClickHandlers(projectButtonDivs) {
   if (projectButtonDivs) {
     projectButtonDivs.forEach((buttonDiv) => {
-      buttonDiv.removeEventListener("click", projectClickHandler);
-      buttonDiv.addEventListener("click", projectClickHandler);
+      buttonDiv.removeEventListener(clickOrTouch, projectClickHandler);
+      buttonDiv.addEventListener(clickOrTouch, projectClickHandler);
     });
   }
 }

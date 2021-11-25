@@ -30,7 +30,11 @@ const StorageController = (() => {
     return taskArray;
   }
 
-  return { saveTask, saveProjects, loadProjects, loadTasks };
+  function deleteTask(taskTitle) {
+    _storage.removeItem("TASK" + taskTitle);
+  }
+
+  return { saveTask, saveProjects, loadProjects, loadTasks, deleteTask };
 })();
 
 export default StorageController;
