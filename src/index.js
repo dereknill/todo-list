@@ -22,7 +22,7 @@ const init = (() => {
     navigator.MaxTouchPoints > 0 ||
     navigator.msMaxTouchPoints > 0
   ) {
-    clickOrTouch = "ontouchstart";
+    clickOrTouch = "touchstart";
   } else {
     clickOrTouch = "click";
   }
