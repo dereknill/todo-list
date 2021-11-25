@@ -23,6 +23,7 @@ const init = (() => {
     navigator.msMaxTouchPoints > 0
   ) {
     clickOrTouch = "touchstart";
+    alert("TOUCHSCREEN DETECTED");
   } else {
     clickOrTouch = "click";
   }
