@@ -48,21 +48,18 @@ function addProjectToggleButton() {
   DOMController.clearNewProjectInput();
 }
 
-// Put functions in global scope for button onclick
-window.addProjectToggleButton = addProjectToggleButton;
-window.addNewProjectButton = addNewProjectButton;
-window.cancelNewProjectButton = cancelNewProjectButton;
-window.taskList = taskList;
-window.projectList = projectList;
-
 function load() {
-  projectList = StorageController.loadProjects();
+  loadProjects();
   taskList = StorageController.loadTasks();
-  let projectButtonDivs = DOMController.setProjectMenuDiv(projectList);
-  addProjectClickHandlers(projectButtonDivs);
   addButtonClickHandlers();
+  setContent("Today");
 }
 
+function loadProjects() {
+  projectList = StorageController.loadProjects();
+  let projectButtonDivs = DOMController.setProjectMenuDiv(projectList);
+  addProjectClickHandlers(projectButtonDivs);
+}
 function addProjectClickHandlers(projectButtonDivs) {
   if (projectButtonDivs) {
     projectButtonDivs.forEach((buttonDiv) => {
@@ -94,6 +91,15 @@ function addButtonClickHandlers() {
     clickOrTouch,
     toggleHamburgerMenu
   );
+}
+
+function setContent(projectName) {
+  DOMController.setContentDiv(projectName);
+  setDeleteProjectButtonVisibility(projectName);
+  loadTasks(projectName);
+  if (checkResponsiveBreakpoint()) {
+    DOMController.setMenuSectionVisible(false);
+  }
 }
 
 function loadTasks(projectName) {}
@@ -131,14 +137,20 @@ function cancelNewProjectButton() {
 }
 
 function projectClickHandler() {
-  let projectName = this.dataset.projectName;
-  DOMController.setContentDiv(projectName);
-  setDeleteProjectButtonVisibility(projectName);
-  loadTasks(projectName);
+  setContent(this.dataset.projectName);
+}
+
+function checkResponsiveBreakpoint() {
+  let responsiveBreakpoint = window.matchMedia("(max-width: 700px)");
+  return responsiveBreakpoint.matches;
 }
 
 function deleteProjectHandler() {
-  console.log("Delete project " + this.dataset.projectName);
+  let projectName = this.dataset.projectName;
+  projectList.splice(projectList.indexOf(projectName), 1);
+  StorageController.saveProjects(projectList);
+  loadProjects();
+  setContent("Today");
 }
 
 function toggleHamburgerMenu() {

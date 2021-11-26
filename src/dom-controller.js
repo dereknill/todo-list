@@ -112,6 +112,14 @@ const DOMController = (() => {
     }
   }
 
+  function setMenuSectionVisible(isVisible) {
+    if (isVisible && !menuSectionDiv.classList.contains("unhide-menu")) {
+      menuSectionDiv.classList.add("unhide-menu");
+    } else {
+      menuSectionDiv.classList.remove("unhide-menu");
+    }
+  }
+
   function getHamburgerButton() {
     return hamburgerButton;
   }
@@ -129,6 +137,7 @@ const DOMController = (() => {
     getCancelNewProjectButton,
     getHamburgerButton,
     toggleMenuSectionVisible,
+    setMenuSectionVisible,
   };
 })();
 

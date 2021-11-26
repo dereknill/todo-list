@@ -116,7 +116,12 @@ body {
 .content-section {
   flex-grow: 1;
   flex-shrink: 0;
-  width: 100%;
+}
+
+@media screen and (max-width: 700px) {
+  .content-section {
+    width: 100%;
+  }
 }
 
 .content-inner-container {
@@ -207,7 +212,7 @@ body {
 .add-project-buttons-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .content-heading {
@@ -217,8 +222,14 @@ body {
 }
 
 .content-title {
-  font-size: 50px;
+  font-size: 40px;
   font-weight: bold;
+}
+
+@media screen and (max-width: 700px) {
+  .content-title {
+    font-size: 30px;
+  }
 }
 
 .button-delete-project {
