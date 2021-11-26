@@ -10,26 +10,31 @@
 <body>
     <div class="container">
         <div class="logo-section">
-            <img src="63c2e53d34dc9aa36caa.png" class="logo-img">
-            Taskmaster</i>
+            <div class="logo-text">
+                <img src="63c2e53d34dc9aa36caa.png" class="logo-img">
+                Taskmaster
+            </div>
+            <div class="hamburger-button">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
         <div class="main-section">
             <div class="menu-section">
                 <div class="menu-section-inner-container">
                     <div class="heading">Tasks</div>
-                    <button onclick="" class="menu-section-button">Today</button>
-                    <button onclick="" class="menu-section-button">Week</button>
-                    <button onclick="" class="menu-section-button">All</button>
+                    <button class="menu-section-button" id="today-button" data-project-name="Today"><i class="fas fa-list menu-icon"></i>Today</button>
+                    <button class="menu-section-button" id="week-button" data-project-name="Week"><i class="fas fa-list menu-icon"></i>Week</button>
+                    <button class="menu-section-button" id="all-button" data-project-name="All"><i class="fas fa-list menu-icon"></i>All</button>
                     <div class="heading">Projects</div>
                     <div class="project-menu-container">
 
                     </div>
-                    <button onclick="addProjectToggleButton()" class="menu-section-button" id="add-project-button"><i class="fas fa-plus menu-icon"></i>Add Project</button>
+                    <button class="menu-section-button" id="add-project-button"><i class="fas fa-plus menu-icon"></i>Add Project</button>
                     <div class="add-project-container hide">
                         <input type="text" class="add-project-input" placeholder="Project Name"></input>
                         <div class="add-project-buttons-container">
-                            <button onclick="addNewProjectButton()" class="button-main button-add">Add</button>
-                            <button onclick="cancelNewProjectButton()" class="button-main button-cancel">Cancel</button>
+                            <button class="button-main button-add">Add</button>
+                            <button class="button-main button-cancel">Cancel</button>
                         </div>
                     </div>
                 </div>
