@@ -116,6 +116,7 @@ body {
 .content-section {
   flex-grow: 1;
   flex-shrink: 0;
+  width: 100%;
 }
 
 .content-inner-container {
