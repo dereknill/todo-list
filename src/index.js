@@ -13,20 +13,20 @@ import StorageController from "./storage-controller.js";
 
 let taskList = [];
 let projectList = [];
-let clickOrTouch = "";
+let clickOrTouch = "click";
 
 // Initialize Application On Load
 const init = (() => {
-  if (
-    "ontouchstart" in window ||
-    navigator.MaxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0
-  ) {
-    clickOrTouch = "touchstart";
-    alert("TOUCHSCREEN DETECTED");
-  } else {
-    clickOrTouch = "click";
-  }
+  //   if (
+  //     "ontouchstart" in window ||
+  //     navigator.MaxTouchPoints > 0 ||
+  //     navigator.msMaxTouchPoints > 0
+  //   ) {
+  //     clickOrTouch = "touchstart";
+  //     alert("TOUCHSCREEN DETECTED");
+  //   } else {
+  //     clickOrTouch = "click";
+  //   }
   load();
 })();
 
