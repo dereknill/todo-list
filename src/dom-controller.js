@@ -4,6 +4,14 @@ const DOMController = (() => {
   const addProjectButton = document.querySelector("#add-project-button");
   const addProjectFormDiv = document.querySelector(".add-project-container");
   const projectInputDiv = document.querySelector(".add-project-input");
+  const todayButton = document.querySelector("#today-button");
+  const weekButton = document.querySelector("#week-button");
+  const allButton = document.querySelector("#all-button");
+  const deleteProjectButton = document.querySelector(".button-delete-project");
+  const addNewProjectButton = document.querySelector(".button-add");
+  const cancelNewProjectButton = document.querySelector(".button-cancel");
+  const menuSectionDiv = document.querySelector(".menu-section");
+  const hamburgerButton = document.querySelector(".hamburger-button");
 
   function setProjectMenuDiv(projects) {
     _removeAllChildren(projectMenuDiv);
@@ -26,6 +34,9 @@ const DOMController = (() => {
       projectButtonDivs.push(button);
     });
 
+    projectButtonDivs.push(todayButton);
+    projectButtonDivs.push(weekButton);
+    projectButtonDivs.push(allButton);
     return projectButtonDivs;
   }
 
@@ -65,12 +76,59 @@ const DOMController = (() => {
     let titleDiv = document.querySelector(".content-title");
     titleDiv.innerHTML = title;
   }
+
+  function setDeleteProjectButtonHidden(isHidden) {
+    if (isHidden) {
+      deleteProjectButton.classList.add("hide");
+    } else {
+      deleteProjectButton.classList.remove("hide");
+    }
+  }
+
+  function getDeleteProjectButton() {
+    return deleteProjectButton;
+  }
+  function getAddProjectButton() {
+    return addProjectButton;
+  }
+
+  function setDeleteProjectButtonTarget(projectName) {
+    deleteProjectButton.setAttribute("data-project-name", projectName);
+  }
+
+  function getAddNewProjectButton() {
+    return addNewProjectButton;
+  }
+
+  function getCancelNewProjectButton() {
+    return cancelNewProjectButton;
+  }
+
+  function toggleMenuSectionVisible() {
+    if (menuSectionDiv.classList.contains("unhide-menu")) {
+      menuSectionDiv.classList.remove("unhide-menu");
+    } else {
+      menuSectionDiv.classList.add("unhide-menu");
+    }
+  }
+
+  function getHamburgerButton() {
+    return hamburgerButton;
+  }
   return {
     setProjectMenuDiv,
     toggleAddProject,
     getNewProjectName,
     clearNewProjectInput,
     setContentDiv,
+    getAddProjectButton,
+    setDeleteProjectButtonHidden,
+    getDeleteProjectButton,
+    setDeleteProjectButtonTarget,
+    getAddNewProjectButton,
+    getCancelNewProjectButton,
+    getHamburgerButton,
+    toggleMenuSectionVisible,
   };
 })();
 

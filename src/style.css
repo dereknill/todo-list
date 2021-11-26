@@ -23,21 +23,52 @@ body {
 }
 .logo-section {
   background-color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.logo-text {
   font-family: "Baskervville", serif;
   font-size: 60px;
   letter-spacing: -1px;
   color: var(--tertiary-color);
+  font-weight: bold;
   display: flex;
   align-items: center;
-  padding: 10px 0;
-  font-weight: bold;
 }
 
+@media screen and (max-width: 700px) {
+  .logo-text {
+    font-size: 40px;
+    letter-spacing: -0.5px;
+  }
+}
+
+.hamburger-button {
+  font-size: 40px;
+  color: var(--tertiary-color);
+  padding-right: 20px;
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  .hamburger-button {
+    display: block;
+  }
+}
 .main-section {
   display: flex;
   width: 100%;
   flex-grow: 2;
   font-family: "Open Sans", sans-serif;
+}
+
+@media screen and (max-width: 700px) {
+  .main-section {
+    flex-direction: column;
+  }
 }
 
 .menu-section {
@@ -47,6 +78,18 @@ body {
   background-color: var(--secondary-color);
   display: flex;
   justify-content: center;
+}
+
+@media screen and (max-width: 700px) {
+  .menu-section {
+    max-width: 100%;
+    width: 100%;
+    display: none;
+  }
+}
+
+.unhide-menu {
+  display: flex;
 }
 
 .menu-section-inner-container {
@@ -72,18 +115,25 @@ body {
 }
 .content-section {
   flex-grow: 1;
-  flex-basis: fill;
+  flex-shrink: 0;
 }
 
 .content-inner-container {
   width: 95%;
   max-width: 800px;
-  min-width: 400px;
+  min-width: 500px;
   margin: 0 auto;
   margin-top: 30px;
+  padding: 0 20px;
 }
 .logo-img {
   width: 100px;
+}
+
+@media screen and (max-width: 700px) {
+  .logo-img {
+    width: 70px;
+  }
 }
 .footer-section {
   background-color: var(--primary-color);
