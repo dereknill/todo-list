@@ -125,7 +125,7 @@ function setContent(projectName) {
     DOMController.setMenuSectionVisible(false);
   }
   DOMController.hideAddTaskMenu();
-  DOMController.triggerFadeAnim();
+
   currentProject = projectName;
 }
 
@@ -287,6 +287,7 @@ function cancelNewProjectButton() {
 
 function projectClickHandler() {
   setContent(this.dataset.projectName);
+  DOMController.triggerFadeAnim();
 }
 
 function checkResponsiveBreakpoint() {
@@ -301,6 +302,7 @@ function deleteProjectHandler() {
   _deleteTasksFromProject(projectName);
   loadProjects();
   setContent("Today");
+  DOMController.triggerFadeAnim();
 }
 
 function toggleHamburgerMenu() {
