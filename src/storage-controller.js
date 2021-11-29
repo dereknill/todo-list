@@ -34,7 +34,20 @@ const StorageController = (() => {
     _storage.removeItem("TASK" + taskTitle);
   }
 
-  return { saveTask, saveProjects, loadProjects, loadTasks, deleteTask };
+  function setTaskComplete(taskTitle, complete) {
+    let task = JSON.parse(_storage.getItem("TASK" + taskTitle));
+    task.complete = complete;
+    deleteTask(taskTitle);
+    saveTask(task);
+  }
+  return {
+    saveTask,
+    saveProjects,
+    loadProjects,
+    loadTasks,
+    deleteTask,
+    setTaskComplete,
+  };
 })();
 
 export default StorageController;

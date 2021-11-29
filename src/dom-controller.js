@@ -191,6 +191,15 @@ const DOMController = (() => {
     };
   }
 
+  function getAddTaskDateElement() {
+    return addTaskDateInput;
+  }
+
+  function addTasks(taskList) {
+    taskList.foreach((task) => {
+      addTask(task);
+    });
+  }
   function addTask(task) {
     let taskContainer = document.createElement("div");
     let checkBoxContainer = document.createElement("div");
@@ -201,6 +210,10 @@ const DOMController = (() => {
     let checkBox = document.createElement("input");
     let deleteIcon = document.createElement("i");
 
+    if (task.complete) {
+      checkBox.checked = true;
+      taskContainer.classList.add("completed-text");
+    }
     taskContainer.classList.add("task-container");
 
     checkBox.classList.add("task-checkbox");
@@ -227,7 +240,7 @@ const DOMController = (() => {
     taskContainer.appendChild(deleteContainer);
 
     tasksDiv.appendChild(taskContainer);
-    return deleteContainer;
+    return { checkBox, deleteContainer };
   }
 
   function clearTasks() {
@@ -253,6 +266,7 @@ const DOMController = (() => {
       addTaskProjectInput.appendChild(option);
     });
   }
+
   return {
     setProjectMenuDiv,
     toggleAddProject,
@@ -278,6 +292,8 @@ const DOMController = (() => {
     clearTasks,
     populateSelectProjectList,
     hideAddTaskMenu,
+    getAddTaskDateElement,
+    addTasks,
   };
 })();
 

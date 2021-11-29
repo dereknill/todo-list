@@ -6,6 +6,7 @@ import "@fortawesome/fontawesome-free/js/brands";
 import {
   differenceInDays,
   format,
+  parseISO,
   formatDistance,
   formatRelative,
   subDays,
@@ -38,6 +39,8 @@ const init = (() => {
 })();
 
 function newTask(title, dueDate, project, complete) {
+  console.log(dueDate);
+  dueDate = format(parseISO(dueDate), "MM-dd-yyyy");
   let task = TaskFactory(title, dueDate, project, complete);
   taskList.push(task);
   StorageController.saveTask(task);
@@ -102,7 +105,7 @@ function addButtonClickHandlers() {
   );
   DOMController.getAddTaskToggleButton().addEventListener(
     clickOrTouch,
-    toggleAddTaskMenu
+    showAddTaskMenu
   );
   DOMController.getAddTaskCancel().addEventListener(
     clickOrTouch,
@@ -127,46 +130,88 @@ function setContent(projectName) {
 
 function populateTasks(projectName) {
   DOMController.clearTasks();
+  let tasks;
   if (projectName === "Today") {
-    _populateTasksToday();
+    tasks = _populateTasksToday();
   } else if (projectName === "Week") {
-    _populateTasksWeek();
+    tasks = _populateTasksWeek();
   } else if (projectName === "All") {
-    _populateTasksAll();
+    tasks = _populateTasksAll();
+  } else {
+    tasks = _populateTasksByProject(projectName);
   }
-}
 
-function _populateTasksToday() {
-  taskList.forEach((task) => {
-    if (task.dueDate == format(new Date(), "yyyy-MM-dd")) {
-      _initNewTask(task);
-    }
+  let sortedTasks = _sortTasksByDate(tasks);
+  sortedTasks.forEach((task) => {
+    _initNewTask(task);
   });
 }
 
+function _populateTasksToday() {
+  let tasks = [];
+  taskList.forEach((task) => {
+    if (task.dueDate == format(new Date(), "MM-dd-yyyy")) {
+      tasks.push(task);
+    }
+  });
+  return tasks;
+}
+
 function _populateTasksWeek() {
+  let tasks = [];
   taskList.forEach((task) => {
     const taskDate = new Date(task.dueDate);
     taskDate.setUTCHours(0, 0, 0, 0);
     const todaysDate = new Date();
     todaysDate.setUTCHours(0, 0, 0, 0);
-
     if (differenceInDays(todaysDate, taskDate) <= 7 && taskDate >= todaysDate) {
-      _initNewTask(task);
+      tasks.push(task);
     }
   });
+  return tasks;
 }
 
 function _populateTasksAll() {
+  let tasks = [];
   taskList.forEach((task) => {
-    _initNewTask(task);
+    tasks.push(task);
   });
+
+  return tasks;
 }
 
+function _populateTasksByProject(projectName) {
+  let tasks = [];
+  taskList.forEach((task) => {
+    if (task.project === projectName) {
+      tasks.push(task);
+    }
+  });
+  return tasks;
+}
+
+function _sortTasksByDate(tasks) {
+  let sorted = tasks.sort(function (a, b) {
+    let aDate = new Date(a.dueDate);
+    let bDate = new Date(b.dueDate);
+    if (aDate < bDate) {
+      return -1;
+    } else if (aDate > bDate) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+
+  return sorted;
+}
 function _initNewTask(task) {
-  let deleteTaskButton = DOMController.addTask(task);
-  deleteTaskButton.addEventListener(clickOrTouch, deleteTaskHandler);
-  deleteTaskButton.dataset.taskName = task.title;
+  let taskObject = DOMController.addTask(task);
+  taskObject.deleteContainer.addEventListener(clickOrTouch, deleteTaskHandler);
+  taskObject.deleteContainer.dataset.taskName = task.title;
+
+  taskObject.checkBox.addEventListener("change", completeHandler);
+  taskObject.checkBox.dataset.taskName = task.title;
 }
 
 function setDeleteProjectButtonVisibility(projectName) {
@@ -182,6 +227,34 @@ function setDeleteProjectButtonVisibility(projectName) {
   }
 }
 
+function _deleteTask(taskName) {
+  for (let i = 0; i < taskList.length; i++) {
+    if (taskList[i].title === taskName) {
+      taskList.splice(i, 1);
+      break;
+    }
+  }
+  StorageController.deleteTask(taskName);
+}
+
+function _deleteTasksFromProject(projectName) {
+  for (let i = 0; i < taskList.length; i++) {
+    if (taskList[i].project === projectName) {
+      StorageController.deleteTask(taskList[i].title);
+      taskList.splice(i, 1);
+    }
+  }
+}
+
+function setTaskComplete(taskName, complete) {
+  StorageController.setTaskComplete(taskName, complete);
+  for (let i = 0; i < taskList.length; i++) {
+    if (taskList[i].title === taskName) {
+      taskList[i].complete = complete;
+      break;
+    }
+  }
+}
 // Click Handlers
 
 function addNewProjectButton() {
@@ -224,6 +297,7 @@ function deleteProjectHandler() {
   let projectName = this.dataset.projectName;
   projectList.splice(projectList.indexOf(projectName), 1);
   StorageController.saveProjects(projectList);
+  _deleteTasksFromProject(projectName);
   loadProjects();
   setContent("Today");
 }
@@ -232,13 +306,14 @@ function toggleHamburgerMenu() {
   DOMController.toggleMenuSectionVisible();
 }
 
-function toggleAddTaskMenu() {
+function showAddTaskMenu() {
   DOMController.toggleAddTask();
+  DOMController.getAddTaskDateElement().valueAsDate = new Date();
 }
 
 function addTaskCancel() {
   DOMController.clearAddTaskInputs();
-  DOMController.toggleAddTask();
+  DOMController.hideAddTaskMenu();
 }
 
 function addTaskConfirm() {
@@ -258,22 +333,25 @@ function addTaskConfirm() {
     return;
   }
   newTask(taskInput.taskName, taskInput.taskDate, taskInput.taskProject, false);
-  toggleAddTaskMenu();
+  populateTasks(currentProject);
+  DOMController.hideAddTaskMenu();
 }
 
 function deleteTaskHandler() {
-  console.log("Delete task: " + this.dataset.taskName);
   let taskName = this.dataset.taskName;
-  for (let i = 0; i < taskList.length; i++) {
-    if (taskList[i].title === taskName) {
-      taskList.splice(i, 1);
-      break;
-    }
-  }
-
-  StorageController.deleteTask(taskName);
+  _deleteTask(taskName);
   populateTasks(currentProject);
 }
+
+function completeHandler() {
+  if (this.checked) {
+    setTaskComplete(this.dataset.taskName, true);
+  } else {
+    setTaskComplete(this.dataset.taskName, false);
+  }
+  setContent(currentProject);
+}
+
 // Validator Utilities
 function isEmpty(str) {
   return !str.trim().length;

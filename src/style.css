@@ -220,7 +220,7 @@ body {
 
 .task-container {
   display: grid;
-  grid-template-columns: 30px 3fr 1.5fr 1fr 30px;
+  grid-template-columns: 30px 2fr 1fr 1fr 30px;
   grid-template-rows: auto;
   vertical-align: center;
 }
@@ -334,4 +334,8 @@ body {
   grid-template-columns: 1fr;
   row-gap: 10px;
   margin-top: 10px;
+}
+
+.completed-text {
+  text-decoration: line-through;
 }
