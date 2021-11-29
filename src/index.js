@@ -125,6 +125,7 @@ function setContent(projectName) {
     DOMController.setMenuSectionVisible(false);
   }
   DOMController.hideAddTaskMenu();
+  DOMController.triggerFadeAnim();
   currentProject = projectName;
 }
 

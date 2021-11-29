@@ -56,6 +56,11 @@ const DOMController = (() => {
     }
   }
 
+  function triggerFadeAnim() {
+    contentDiv.style.animation = "none";
+    contentDiv.offsetHeight;
+    contentDiv.style.animation = null;
+  }
   function toggleAddProject() {
     if (addProjectButton.classList.contains("hide")) {
       addProjectButton.classList.remove("hide");
@@ -294,6 +299,7 @@ const DOMController = (() => {
     hideAddTaskMenu,
     getAddTaskDateElement,
     addTasks,
+    triggerFadeAnim,
   };
 })();
 
