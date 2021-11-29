@@ -2,6 +2,9 @@
   box-sizing: border-box;
 }
 
+select {
+  -webkit-appearance: none;
+}
 :root {
   --primary-color: rgb(51, 51, 51);
   --secondary-color: rgb(221, 221, 221);
@@ -221,12 +224,13 @@ body {
 
 .task-container {
   display: grid;
-  grid-template-columns: 30px 2fr 1.3fr 1fr 30px;
+  grid-template-columns: 30px 2fr 1.3fr 1.1fr 30px;
   grid-template-rows: auto;
   vertical-align: center;
   word-wrap: break-word;
   word-break: break-all;
   overflow-wrap: break-word;
+  column-gap: 5px;
 }
 
 .word-wrap {
@@ -303,6 +307,7 @@ body {
   height: 100%;
   width: 90%;
   max-width: 200px;
+  padding: 5px;
 }
 
 .add-task-buttons-container {
