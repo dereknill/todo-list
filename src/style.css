@@ -104,34 +104,38 @@ body {
     overflow: hidden;
     flex-grow: 0;
     height: 0;
+    z-index: 2;
   }
 }
 
 .slide-in {
   height: auto;
-  animation: slidein 0.25s ease-in;
+  min-height: 100%;
+  animation: slidein 1s;
 }
 
 .slide-out {
-  height: auto;
-  max-height: 0;
-  animation: slideout 0.25s;
+  height: 0;
+  min-height: 0;
+  animation: slideout 0.35s;
 }
 @keyframes slidein {
   from {
-    max-height: 0;
+    height: 0;
+    min-height: 0;
   }
   to {
-    max-height: 2000px;
+    height: 2000px;
   }
 }
 
 @keyframes slideout {
   from {
-    max-height: 1000px;
+    height: 2000px;
+    min-height: 0;
   }
   to {
-    max-height: 0;
+    height: 0;
   }
 }
 

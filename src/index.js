@@ -23,18 +23,7 @@ let projectList = [];
 let clickOrTouch = "click";
 let currentProject = "Today";
 
-// Initialize Application On Load
 const init = (() => {
-  //   if (
-  //     "ontouchstart" in window ||
-  //     navigator.MaxTouchPoints > 0 ||
-  //     navigator.msMaxTouchPoints > 0
-  //   ) {
-  //     clickOrTouch = "touchstart";
-  //     alert("TOUCHSCREEN DETECTED");
-  //   } else {
-  //     clickOrTouch = "click";
-  //   }
   load();
 })();
 
@@ -63,7 +52,7 @@ function load() {
   loadProjects();
   taskList = StorageController.loadTasks();
   addButtonClickHandlers();
-  setContent(currentProject);
+  setContent(currentProject, true);
   DOMController.populateSelectProjectList(projectList);
 }
 
@@ -117,11 +106,11 @@ function addButtonClickHandlers() {
   );
 }
 
-function setContent(projectName) {
+function setContent(projectName, firstLoad) {
   DOMController.setContentDiv(projectName);
   setDeleteProjectButtonVisibility(projectName);
   populateTasks(projectName);
-  if (checkResponsiveBreakpoint()) {
+  if (checkResponsiveBreakpoint() && !firstLoad) {
     DOMController.setMenuSectionVisible(false);
   }
   DOMController.hideAddTaskMenu();
