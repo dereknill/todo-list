@@ -45,10 +45,51 @@
                         <div class="content-title"></div>
                         <button class="button-main button-delete-project">Delete</button>
                     </div>
+                    <div class="content-tasks">
+                        <div class="task-container task-container-header">
+                            <div></div>
+                            <div>Task</div>
+                            <div>Due Date</div>
+                            <div>Project</div>
+                        </div>
+                        <div class="tasks">
+                            <div class="task-container">
+                                <div><input type="checkbox" class="task-checkbox"></div>
+                                <div>Finish this website</div>
+                                <div>11/11/2021</div>
+                                <div>none</div>
+                                <div><i class="fas fa-trash-alt"></i></div>
+                            </div>
+                        </div>
+                        <div class="task-container add-task-toggle-container">
+                            <button class="add-task-toggle">
+                                <i class="fas fa-plus menu-icon"></i>Add Task
+                            </button>
+                        </div>
+                        <div class="add-task-container hide">
+                            <div>
+                                <input type="text" class="add-task-title-input" placeholder="Task Name">
+                            </div>
+                            <div>
+                                <input type="date" class="add-task-date-input">
+                            </div>
+                            <div>
+                                <select class="add-task-project-select-input">
+                                    <option value="" disabled selected hidden>Projects</option>
+                                </select>
+                            </div>
+                            <div class="add-task-buttons-container">
+                                <button class="button-main button-add add-task-confirm">Add</button>
+                                <button class="button-main button-cancel add-task-cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-        <div class="footer-section">Footer</div>
+    </div>
+    <div class="footer-section">Footer</div>
     </div>
 </body>
 
