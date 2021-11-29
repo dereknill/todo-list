@@ -165,7 +165,7 @@ function _populateTasksWeek() {
     taskDate.setUTCHours(0, 0, 0, 0);
     const todaysDate = new Date();
     todaysDate.setUTCHours(0, 0, 0, 0);
-    if (differenceInDays(todaysDate, taskDate) <= 7 && taskDate >= todaysDate) {
+    if (differenceInDays(taskDate, todaysDate) <= 7) {
       tasks.push(task);
     }
   });
@@ -337,6 +337,7 @@ function addTaskConfirm() {
   }
   newTask(taskInput.taskName, taskInput.taskDate, taskInput.taskProject, false);
   populateTasks(currentProject);
+  DOMController.clearAddTaskInputs();
   DOMController.hideAddTaskMenu();
 }
 

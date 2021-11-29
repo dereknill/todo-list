@@ -228,7 +228,7 @@ body {
   grid-template-rows: auto;
   vertical-align: center;
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   overflow-wrap: break-word;
   column-gap: 5px;
 }
