@@ -12,6 +12,16 @@ const DOMController = (() => {
   const cancelNewProjectButton = document.querySelector(".button-cancel");
   const menuSectionDiv = document.querySelector(".menu-section");
   const hamburgerButton = document.querySelector(".hamburger-button");
+  const addTaskToggleDiv = document.querySelector(".add-task-toggle-container");
+  const addTaskFormDiv = document.querySelector(".add-task-container");
+  const addTaskTitleInput = document.querySelector(".add-task-title-input");
+  const addTaskDateInput = document.querySelector(".add-task-date-input");
+  const addTaskProjectInput = document.querySelector(
+    ".add-task-project-select-input"
+  );
+  const addTaskConfirm = document.querySelector(".add-task-confirm");
+  const addTaskCancel = document.querySelector(".add-task-cancel");
+  const tasksDiv = document.querySelector(".tasks");
 
   function setProjectMenuDiv(projects) {
     _removeAllChildren(projectMenuDiv);
@@ -68,7 +78,7 @@ const DOMController = (() => {
     projectInputDiv.value = "";
   }
 
-  function setContentDiv(title, tasks) {
+  function setContentDiv(title) {
     _setContentTitle(title);
   }
 
@@ -112,6 +122,30 @@ const DOMController = (() => {
     }
   }
 
+  function toggleAddTask() {
+    if (addTaskToggleDiv.classList.contains("hide")) {
+      addTaskToggleDiv.classList.remove("hide");
+    } else {
+      addTaskToggleDiv.classList.add("hide");
+    }
+
+    if (addTaskFormDiv.classList.contains("hide")) {
+      addTaskFormDiv.classList.remove("hide");
+    } else {
+      addTaskFormDiv.classList.add("hide");
+    }
+  }
+
+  function hideAddTaskMenu() {
+    if (addTaskToggleDiv.classList.contains("hide")) {
+      addTaskToggleDiv.classList.remove("hide");
+    }
+
+    if (!addTaskFormDiv.classList.contains("hide")) {
+      addTaskFormDiv.classList.add("hide");
+    }
+  }
+
   function setMenuSectionVisible(isVisible) {
     if (isVisible && !menuSectionDiv.classList.contains("unhide-menu")) {
       menuSectionDiv.classList.add("unhide-menu");
@@ -120,8 +154,104 @@ const DOMController = (() => {
     }
   }
 
+  function getAddTaskToggleButton() {
+    return addTaskToggleDiv;
+  }
+
   function getHamburgerButton() {
     return hamburgerButton;
+  }
+
+  function getAddTaskConfirm() {
+    return addTaskConfirm;
+  }
+
+  function getAddTaskCancel() {
+    return addTaskCancel;
+  }
+
+  function clearAddTaskInputs() {
+    addTaskTitleInput.value = "";
+    addTaskDateInput.value = "";
+    addTaskProjectInput.value = "";
+  }
+
+  function getAddTaskInput() {
+    const taskName = addTaskTitleInput.value;
+    const taskDate = addTaskDateInput.value;
+    let taskProject = addTaskProjectInput.value;
+
+    if (taskProject === "Projects") {
+      taskProject = undefined;
+    }
+    return {
+      taskName,
+      taskDate,
+      taskProject,
+    };
+  }
+
+  function addTask(task) {
+    let taskContainer = document.createElement("div");
+    let checkBoxContainer = document.createElement("div");
+    let titleContainer = document.createElement("div");
+    let dueDateContainer = document.createElement("div");
+    let projectContainer = document.createElement("div");
+    let deleteContainer = document.createElement("div");
+    let checkBox = document.createElement("input");
+    let deleteIcon = document.createElement("i");
+
+    taskContainer.classList.add("task-container");
+
+    checkBox.classList.add("task-checkbox");
+    checkBox.type = "checkbox";
+    checkBoxContainer.appendChild(checkBox);
+
+    titleContainer.innerHTML = task.title;
+    dueDateContainer.innerHTML = task.dueDate;
+
+    if (task.project === "none") {
+      projectContainer.innerHTML = "";
+    } else {
+      projectContainer.innerHTML = task.project;
+    }
+
+    deleteIcon.classList.add("fas", "fa-trash-alt");
+    deleteContainer.appendChild(deleteIcon);
+    deleteContainer.style.cursor = "pointer";
+
+    taskContainer.appendChild(checkBoxContainer);
+    taskContainer.appendChild(titleContainer);
+    taskContainer.appendChild(dueDateContainer);
+    taskContainer.appendChild(projectContainer);
+    taskContainer.appendChild(deleteContainer);
+
+    tasksDiv.appendChild(taskContainer);
+    return deleteContainer;
+  }
+
+  function clearTasks() {
+    _removeAllChildren(tasksDiv);
+  }
+
+  function populateSelectProjectList(projectList) {
+    _removeAllChildren(addTaskProjectInput);
+    let display = document.createElement("option");
+    display.disabled = true;
+    display.selected = true;
+    display.hidden = true;
+    display.innerHTML = "Projects";
+    addTaskProjectInput.appendChild(display);
+    let none = document.createElement("option");
+    none.value = "none";
+    none.innerHTML = "None";
+    addTaskProjectInput.appendChild(none);
+    projectList.forEach((projectName) => {
+      let option = document.createElement("option");
+      option.value = projectName;
+      option.innerHTML = projectName;
+      addTaskProjectInput.appendChild(option);
+    });
   }
   return {
     setProjectMenuDiv,
@@ -138,6 +268,16 @@ const DOMController = (() => {
     getHamburgerButton,
     toggleMenuSectionVisible,
     setMenuSectionVisible,
+    toggleAddTask,
+    getAddTaskToggleButton,
+    clearAddTaskInputs,
+    getAddTaskConfirm,
+    getAddTaskCancel,
+    getAddTaskInput,
+    addTask,
+    clearTasks,
+    populateSelectProjectList,
+    hideAddTaskMenu,
   };
 })();
 

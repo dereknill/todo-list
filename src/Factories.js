@@ -1,9 +1,11 @@
-const TaskFactory = (title, description, dueDate, project = "none") => {
+import { format, formatDistance, formatRelative, subDays } from "date-fns";
+
+const TaskFactory = (title, dueDate, project = "none", complete = false) => {
   return {
     title,
-    description,
     dueDate,
     project,
+    complete,
   };
 };
 

@@ -113,7 +113,7 @@ body {
 .menu-section-button {
   display: block;
   width: 100%;
-  background-color: var(--secondary-color);
+  background-color: inherit;
   padding: 7px 10px;
   border: 2px solid var(--secondary-color);
   border-radius: 10px;
@@ -220,6 +220,9 @@ body {
 
 .task-container {
   display: grid;
+  grid-template-columns: 30px 3fr 1.5fr 1fr 30px;
+  grid-template-rows: auto;
+  vertical-align: center;
 }
 
 .add-project-buttons-container {
@@ -248,4 +251,87 @@ body {
 .button-delete-project {
   background-color: rgb(255, 190, 190);
   border: 1px solid rgb(238, 173, 173);
+}
+
+.content-tasks {
+  margin: 20px 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+}
+
+.add-task-toggle {
+  grid-column: 1 / -1;
+  background-color: inherit;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 10px;
+  text-align: left;
+  color: var(--primary-color);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.add-task-toggle:hover {
+  background-color: var(--hover-color);
+  cursor: pointer;
+}
+
+.add-task-title-input {
+  width: 90%;
+  padding: 5px;
+}
+
+.add-task-date-input {
+  width: 90%;
+  max-width: 200px;
+  height: 100%;
+}
+
+.add-task-project-select-input {
+  height: 100%;
+  width: 90%;
+  max-width: 200px;
+}
+
+.add-task-buttons-container {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.add-task-container {
+  display: grid;
+  grid-template-columns: 3fr 1.5fr 1fr;
+  grid-template-rows: auto;
+  row-gap: 15px;
+  margin: 10px 0;
+}
+
+@media screen and (max-width: 900px) {
+  .add-task-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.task-container-header {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.add-task-confirm,
+.add-task-cancel {
+  max-width: 150px;
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.tasks {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
+  margin-top: 10px;
 }

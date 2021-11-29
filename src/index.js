@@ -3,7 +3,13 @@ import "@fortawesome/fontawesome-free/js/fontawesome";
 import "@fortawesome/fontawesome-free/js/solid";
 import "@fortawesome/fontawesome-free/js/regular";
 import "@fortawesome/fontawesome-free/js/brands";
-import { format, formatDistance, formatRelative, subDays } from "date-fns";
+import {
+  differenceInDays,
+  format,
+  formatDistance,
+  formatRelative,
+  subDays,
+} from "date-fns";
 
 import("./style.css");
 
@@ -14,6 +20,7 @@ import StorageController from "./storage-controller.js";
 let taskList = [];
 let projectList = [];
 let clickOrTouch = "click";
+let currentProject = "Today";
 
 // Initialize Application On Load
 const init = (() => {
@@ -30,8 +37,8 @@ const init = (() => {
   load();
 })();
 
-function newTask(title, description, dueDate, project) {
-  let task = TaskFactory(title, description, dueDate, project);
+function newTask(title, dueDate, project, complete) {
+  let task = TaskFactory(title, dueDate, project, complete);
   taskList.push(task);
   StorageController.saveTask(task);
 }
@@ -41,6 +48,7 @@ function newProject(project) {
   StorageController.saveProjects(projectList);
   let projectButtons = DOMController.setProjectMenuDiv(projectList);
   addProjectClickHandlers(projectButtons);
+  DOMController.populateSelectProjectList(projectList);
 }
 
 function addProjectToggleButton() {
@@ -52,7 +60,8 @@ function load() {
   loadProjects();
   taskList = StorageController.loadTasks();
   addButtonClickHandlers();
-  setContent("Today");
+  setContent(currentProject);
+  DOMController.populateSelectProjectList(projectList);
 }
 
 function loadProjects() {
@@ -91,18 +100,74 @@ function addButtonClickHandlers() {
     clickOrTouch,
     toggleHamburgerMenu
   );
+  DOMController.getAddTaskToggleButton().addEventListener(
+    clickOrTouch,
+    toggleAddTaskMenu
+  );
+  DOMController.getAddTaskCancel().addEventListener(
+    clickOrTouch,
+    addTaskCancel
+  );
+  DOMController.getAddTaskConfirm().addEventListener(
+    clickOrTouch,
+    addTaskConfirm
+  );
 }
 
 function setContent(projectName) {
   DOMController.setContentDiv(projectName);
   setDeleteProjectButtonVisibility(projectName);
-  loadTasks(projectName);
+  populateTasks(projectName);
   if (checkResponsiveBreakpoint()) {
     DOMController.setMenuSectionVisible(false);
   }
+  DOMController.hideAddTaskMenu();
+  currentProject = projectName;
 }
 
-function loadTasks(projectName) {}
+function populateTasks(projectName) {
+  DOMController.clearTasks();
+  if (projectName === "Today") {
+    _populateTasksToday();
+  } else if (projectName === "Week") {
+    _populateTasksWeek();
+  } else if (projectName === "All") {
+    _populateTasksAll();
+  }
+}
+
+function _populateTasksToday() {
+  taskList.forEach((task) => {
+    if (task.dueDate == format(new Date(), "yyyy-MM-dd")) {
+      _initNewTask(task);
+    }
+  });
+}
+
+function _populateTasksWeek() {
+  taskList.forEach((task) => {
+    const taskDate = new Date(task.dueDate);
+    taskDate.setUTCHours(0, 0, 0, 0);
+    const todaysDate = new Date();
+    todaysDate.setUTCHours(0, 0, 0, 0);
+
+    if (differenceInDays(todaysDate, taskDate) <= 7 && taskDate >= todaysDate) {
+      _initNewTask(task);
+    }
+  });
+}
+
+function _populateTasksAll() {
+  taskList.forEach((task) => {
+    _initNewTask(task);
+  });
+}
+
+function _initNewTask(task) {
+  let deleteTaskButton = DOMController.addTask(task);
+  deleteTaskButton.addEventListener(clickOrTouch, deleteTaskHandler);
+  deleteTaskButton.dataset.taskName = task.title;
+}
 
 function setDeleteProjectButtonVisibility(projectName) {
   if (
@@ -116,6 +181,7 @@ function setDeleteProjectButtonVisibility(projectName) {
     DOMController.setDeleteProjectButtonTarget(projectName);
   }
 }
+
 // Click Handlers
 
 function addNewProjectButton() {
@@ -126,10 +192,19 @@ function addNewProjectButton() {
   } else if (projectList.includes(input)) {
     alert("Project already exists");
     return;
+  } else if (_checkReservedProjectNames(input)) {
+    alert("Project name is reserved");
+    return;
   } else {
     newProject(input);
   }
   addProjectToggleButton();
+}
+
+function _checkReservedProjectNames(input) {
+  let pattern = /Projects|All|Week|Today|None|none/g;
+
+  return input.match(pattern);
 }
 
 function cancelNewProjectButton() {
@@ -156,7 +231,52 @@ function deleteProjectHandler() {
 function toggleHamburgerMenu() {
   DOMController.toggleMenuSectionVisible();
 }
+
+function toggleAddTaskMenu() {
+  DOMController.toggleAddTask();
+}
+
+function addTaskCancel() {
+  DOMController.clearAddTaskInputs();
+  DOMController.toggleAddTask();
+}
+
+function addTaskConfirm() {
+  const taskInput = DOMController.getAddTaskInput();
+  if (isEmpty(taskInput.taskName)) {
+    alert("Task name is required");
+    return;
+  }
+
+  if (isEmpty(taskInput.taskDate)) {
+    alert("Task date is required");
+    return;
+  }
+
+  if (taskList.some((task) => task.title === taskInput.taskName)) {
+    alert("Task already exists");
+    return;
+  }
+  newTask(taskInput.taskName, taskInput.taskDate, taskInput.taskProject, false);
+  toggleAddTaskMenu();
+}
+
+function deleteTaskHandler() {
+  console.log("Delete task: " + this.dataset.taskName);
+  let taskName = this.dataset.taskName;
+  for (let i = 0; i < taskList.length; i++) {
+    if (taskList[i].title === taskName) {
+      taskList.splice(i, 1);
+      break;
+    }
+  }
+
+  StorageController.deleteTask(taskName);
+  populateTasks(currentProject);
+}
 // Validator Utilities
 function isEmpty(str) {
   return !str.trim().length;
 }
+
+window.taskList = taskList;
