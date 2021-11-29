@@ -224,7 +224,7 @@ body {
 
 .task-container {
   display: grid;
-  grid-template-columns: 30px 2fr 1.4fr 1.1fr 30px;
+  grid-template-columns: 30px 2fr 1fr 1fr 30px;
   grid-template-rows: auto;
   vertical-align: center;
   word-wrap: break-word;
@@ -233,6 +233,11 @@ body {
   column-gap: 5px;
 }
 
+@media screen and (max-width: 700px) {
+  .task-container {
+    grid-template-columns: 25px 2fr 1.5fr 1fr 20px;
+  }
+}
 .word-wrap {
   word-wrap: break-word;
 }
@@ -337,7 +342,7 @@ body {
 
 @media screen and (max-width: 700px) {
   .task-container-header {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
