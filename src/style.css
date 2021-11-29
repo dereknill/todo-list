@@ -220,7 +220,7 @@ body {
 
 .task-container {
   display: grid;
-  grid-template-columns: 30px 2fr 1fr 1fr 30px;
+  grid-template-columns: 30px 2fr 1.2fr 1fr 30px;
   grid-template-rows: auto;
   vertical-align: center;
   word-wrap: break-word;
