@@ -346,6 +346,7 @@ body {
   max-width: 200px;
   height: 100%;
   padding: 5px;
+  min-height: 40px;
 }
 
 .add-task-project-select-input {
@@ -353,6 +354,7 @@ body {
   width: 90%;
   max-width: 200px;
   padding: 5px;
+  min-height: 40px;
 }
 
 .add-task-buttons-container {
