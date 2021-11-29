@@ -120,10 +120,14 @@ const DOMController = (() => {
   }
 
   function toggleMenuSectionVisible() {
-    if (menuSectionDiv.classList.contains("unhide-menu")) {
-      menuSectionDiv.classList.remove("unhide-menu");
+    if (menuSectionDiv.classList.contains("slide-in")) {
+      menuSectionDiv.classList.remove("slide-in");
+      menuSectionDiv.classList.add("slide-out");
+      menuSectionDiv.offsetHeight;
     } else {
-      menuSectionDiv.classList.add("unhide-menu");
+      menuSectionDiv.classList.add("slide-in");
+      menuSectionDiv.classList.remove("slide-out");
+      menuSectionDiv.offsetHeight;
     }
   }
 
@@ -152,10 +156,13 @@ const DOMController = (() => {
   }
 
   function setMenuSectionVisible(isVisible) {
-    if (isVisible && !menuSectionDiv.classList.contains("unhide-menu")) {
-      menuSectionDiv.classList.add("unhide-menu");
+    if (isVisible && !menuSectionDiv.classList.contains("slide-in")) {
+      menuSectionDiv.classList.add("slide-in");
+      menuSectionDiv.offsetHeight;
     } else {
-      menuSectionDiv.classList.remove("unhide-menu");
+      menuSectionDiv.classList.remove("slide-in");
+      menuSectionDiv.classList.add("slide-out");
+      menuSectionDiv.offsetHeight;
     }
   }
 

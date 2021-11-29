@@ -100,7 +100,38 @@ body {
   .menu-section {
     max-width: 100%;
     width: 100%;
-    display: none;
+    position: absolute;
+    overflow: hidden;
+    flex-grow: 0;
+    height: 0;
+  }
+}
+
+.slide-in {
+  height: auto;
+  animation: slidein 0.25s ease-in;
+}
+
+.slide-out {
+  height: auto;
+  max-height: 0;
+  animation: slideout 0.25s;
+}
+@keyframes slidein {
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 2000px;
+  }
+}
+
+@keyframes slideout {
+  from {
+    max-height: 1000px;
+  }
+  to {
+    max-height: 0;
   }
 }
 
@@ -113,6 +144,11 @@ body {
   margin-top: 30px;
 }
 
+@media screen and (max-width: 700px) {
+  .menu-section-inner-container {
+    margin-top: 10px;
+  }
+}
 .menu-section-button {
   display: block;
   width: 100%;
