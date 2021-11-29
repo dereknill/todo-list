@@ -58,7 +58,7 @@ body {
 @media screen and (max-width: 700px) {
   .logo-text {
     font-size: 40px;
-    letter-spacing: -0.8px;
+    letter-spacing: -1px;
   }
 }
 
